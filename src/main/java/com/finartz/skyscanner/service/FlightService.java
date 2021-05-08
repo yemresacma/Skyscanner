@@ -5,6 +5,10 @@ import com.finartz.skyscanner.repository.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +24,23 @@ public class FlightService {
     }
 
     public Object getFlight(String from, String to, String companyName) {
-        return flightRepository.getFlight(from, to, companyName);
+        try {
+            return flightRepository.getFlight(from, to, companyName);
+        } catch (EntityNotFoundException e) {
+            throw e;
+        }
     }
 
     public void saveOrUpdate(Flight flight) {
-        flightRepository.save(flight);
+        LocalDate date = flight.getDate().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        date.plusDays(10);
+
+        if (date.isAfter(LocalDate.now())) {
+            flightRepository.save(flight);
+        } else
+            throw new DateTimeException("The flight must be scheduled at least 10 day before. ");
+
     }
 }

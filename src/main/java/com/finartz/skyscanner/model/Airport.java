@@ -6,27 +6,12 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Airport")
-public class Airport extends BaseEntity {
-    @Column(unique = true, nullable = false)
-    private String airportName;
-
+public class Airport extends NamedEntity {
     public Airport() {
-    }
-
-    public Airport(String airportName) {
-        this.airportName = airportName;
-    }
-
-    public String getAirportName() {
-        return airportName;
-    }
-
-    public void setAirporName(String airportName) {
-        this.airportName = airportName;
     }
 
     @Override
     public String toString() {
-        return "Airport [id=" + super.getId() + ", airportName=" + airportName + "]";
+        return "Airport [id=" + super.getId() + ", airportName=" + super.getName() + "]";
     }
 }

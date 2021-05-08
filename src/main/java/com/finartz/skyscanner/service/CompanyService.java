@@ -5,6 +5,8 @@ import com.finartz.skyscanner.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +22,34 @@ public class CompanyService {
     }
 
     public Company getCompanyById(Long id) {
-        return companyRepository.findById(id).get();
+        try {
+            return companyRepository.findById(id).get();
+        } catch (EntityNotFoundException e) {
+            throw e;
+        }
     }
 
     public Company getCompanyByName(String name) {
-        return companyRepository.findByCompanyName(name).get(0);
+        try {
+            return companyRepository.findByCompanyName(name).get(0);
+        } catch (EntityNotFoundException e) {
+            throw e;
+        }
     }
 
     public void saveOrUpdate(Company company) {
-        companyRepository.save(company);
+        try {
+            companyRepository.save(company);
+        } catch (EntityExistsException e) {
+            throw e;
+        }
     }
 
     public void deleteById(Long id) {
-        companyRepository.deleteById(id);
+        try {
+            companyRepository.deleteById(id);
+        } catch (EntityNotFoundException e) {
+            throw e;
+        }
     }
 }

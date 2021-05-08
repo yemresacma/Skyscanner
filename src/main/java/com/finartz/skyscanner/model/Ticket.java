@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Ticket extends BaseEntity {
     @Column(insertable = false, updatable = false)
     String creditCardInfo;
+    int ticketPrice;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "flightInfo", nullable = false)

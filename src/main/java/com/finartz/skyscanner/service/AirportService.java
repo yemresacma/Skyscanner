@@ -5,6 +5,8 @@ import com.finartz.skyscanner.repository.AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +22,34 @@ public class AirportService {
     }
 
     public Airport getAirportById(Long id) {
-        return airportRepository.findById(id).get();
+        try {
+            return airportRepository.findById(id).get();
+        } catch (EntityNotFoundException e) {
+            throw e;
+        }
     }
 
     public Airport getAirportByName(String name) {
-        return airportRepository.findByAirportName(name);
+        try {
+            return airportRepository.findByAirportName(name);
+        } catch (EntityNotFoundException e) {
+            throw e;
+        }
     }
 
     public void saveOrUpdate(Airport airport) {
-        airportRepository.save(airport);
+        try {
+            airportRepository.save(airport);
+        } catch (EntityExistsException e) {
+            throw e;
+        }
     }
 
     public void deleteById(Long id) {
-        airportRepository.deleteById(id);
+        try {
+            airportRepository.deleteById(id);
+        } catch (EntityNotFoundException e) {
+            throw e;
+        }
     }
 }
