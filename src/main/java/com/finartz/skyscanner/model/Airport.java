@@ -4,11 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Airport")
-public class Airport {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long  id;
-
+public class Airport extends BaseEntity {
     @Column(unique = true)
     private String airportName;
 
@@ -17,14 +13,6 @@ public class Airport {
 
     public Airport(String airportName) {
         this.airportName = airportName;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getAirportName() {
@@ -37,6 +25,6 @@ public class Airport {
 
     @Override
     public String toString() {
-        return "Airport [id=" + id + ", airportName=" + airportName + "]";
+        return "Airport [id=" + super.getId() + ", airportName=" + airportName + "]";
     }
 }

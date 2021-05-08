@@ -26,5 +26,7 @@
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
         <mapping class="com.finartz.skyscanner.model.Airport" />
         <mapping class="com.finartz.skyscanner.model.Company" />
+        <mapping class="com.finartz.skyscanner.model.Route" />
+        <mapping class="com.finartz.skyscanner.model.Flight" />
     </session-factory>
 </hibernate-configuration>
