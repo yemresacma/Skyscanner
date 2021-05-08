@@ -1,11 +1,13 @@
 package com.finartz.skyscanner.model;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "Airport")
 public class Airport extends BaseEntity {
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String airportName;
 
     public Airport() {

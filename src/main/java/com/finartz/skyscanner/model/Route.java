@@ -12,13 +12,11 @@ import java.util.List;
         @UniqueConstraint(columnNames={"departurePoint", "arrivalPoint"}))
 public class Route extends BaseEntity {
     @ManyToOne(optional = false)
-    @JoinColumn(name = "departurePoint")
-    @NotNull
+    @JoinColumn(name = "departurePoint", nullable = false)
     private Airport departurePoint;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "arrivalPoint")
-    @NotNull
+    @JoinColumn(name = "arrivalPoint", nullable = false)
     private Airport arrivalPoint;
 
     @OneToMany(mappedBy = "route")

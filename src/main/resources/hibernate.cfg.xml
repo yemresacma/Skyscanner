@@ -28,5 +28,6 @@
         <mapping class="com.finartz.skyscanner.model.Company" />
         <mapping class="com.finartz.skyscanner.model.Route" />
         <mapping class="com.finartz.skyscanner.model.Flight" />
+        <mapping class="com.finartz.skyscanner.model.Ticket" />
     </session-factory>
 </hibernate-configuration>

@@ -5,29 +5,31 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name= "Flight")
 public class Flight extends BaseEntity {
-    @NotNull
+    @Column(nullable = false)
     private int initialTicketPrice;
-    @NotNull
+    @Column(nullable = false)
     private int totalSeat;
     private int remainingSeat;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @NotNull
+    @Column(nullable = false)
     private Date date = new Date();
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "company")
-    @NotNull
+    @JoinColumn(name = "company", nullable = false)
     private Company company;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "route")
-    @NotNull
+    @JoinColumn(name = "route", nullable = false)
     private Route route;
+
+    @OneToMany(mappedBy = "flightInfo")
+    private List<Ticket> tickets;
 
     public Flight() {
     }
