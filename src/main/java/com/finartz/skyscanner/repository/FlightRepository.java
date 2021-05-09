@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FlightRepository extends CrudRepository<Flight, Long> {
 
-    @Query("SELECT f.company, f.initialTicketPrice, f.totalSeat, f.remainingSeat " +
+    @Query("SELECT f.company, f.initialTicketPrice, f.totalSeat, f.soldTicketNumber " +
             "FROM Flight f " +
-            "WHERE (f.route.arrivalPoint.airportName = :from AND " +
-            "f.route.arrivalPoint.airportName = :to AND " +
-            "f.company.companyName = :companyName ) ")
+            "WHERE (f.route.arrivalPoint.name = :from AND " +
+            "f.route.arrivalPoint.name = :to AND " +
+            "f.company.name = :companyName ) ")
     Object getFlight(@Param("from") String from, @Param("to") String to, @Param("companyName") String companyName);
 }

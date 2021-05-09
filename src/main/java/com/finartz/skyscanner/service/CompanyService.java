@@ -22,16 +22,13 @@ public class CompanyService {
     }
 
     public Company getCompanyById(Long id) {
-        try {
-            return companyRepository.findById(id).get();
-        } catch (EntityNotFoundException e) {
-            throw e;
-        }
+        return companyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException());
     }
 
     public Company getCompanyByName(String name) {
         try {
-            return companyRepository.findByCompanyName(name).get(0);
+            return companyRepository.findByName(name);
         } catch (EntityNotFoundException e) {
             throw e;
         }

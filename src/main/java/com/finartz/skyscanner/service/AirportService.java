@@ -22,16 +22,13 @@ public class AirportService {
     }
 
     public Airport getAirportById(Long id) {
-        try {
-            return airportRepository.findById(id).get();
-        } catch (EntityNotFoundException e) {
-            throw e;
-        }
+            return airportRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException());
     }
 
     public Airport getAirportByName(String name) {
         try {
-            return airportRepository.findByAirportName(name);
+            return airportRepository.findByName(name);
         } catch (EntityNotFoundException e) {
             throw e;
         }

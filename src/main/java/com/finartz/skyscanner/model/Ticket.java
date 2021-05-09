@@ -1,14 +1,11 @@
 package com.finartz.skyscanner.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 @Table(name = "Ticket")
 public class Ticket extends BaseEntity {
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false)
     String creditCardInfo;
     int ticketPrice;
 
@@ -21,6 +18,22 @@ public class Ticket extends BaseEntity {
 
     public Ticket(Flight flightInfo) {
         this.flightInfo = flightInfo;
+    }
+
+    public String getCreditCardInfo() {
+        return creditCardInfo;
+    }
+
+    public void setCreditCardInfo(String creditCardInfo) {
+        this.creditCardInfo = creditCardInfo;
+    }
+
+    public int getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(int ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 
     public Flight getFlightInfo() {

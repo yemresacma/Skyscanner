@@ -11,6 +11,6 @@ public interface RouteRepository extends CrudRepository<Route, Long> {
 
     @Query("SELECT r.departurePoint, r.arrivalPoint " +
             "FROM Route r " +
-            "WHERE (r.departurePoint.airportName = :from AND r.arrivalPoint.airportName = :to) ")
+            "WHERE (r.departurePoint.name = :from AND r.arrivalPoint.name = :to) ")
     Object getRoute(@Param("from") String from, @Param("to") String to);
 }

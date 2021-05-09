@@ -1,13 +1,10 @@
 package com.finartz.skyscanner.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finartz.skyscanner.model.Ticket;
 import com.finartz.skyscanner.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -26,7 +23,12 @@ public class TicketController {
     }
 
     @PostMapping("/ticket")
-    private Long saveTicket(@RequestBody Object ticketRequest) throws IOException {
+    private Ticket saveTicket(@RequestBody Object ticketRequest) throws Exception {
         return ticketService.buyTicket(ticketRequest);
+    }
+
+    @DeleteMapping("/ticket")
+    private void deleteTicket(@RequestBody Object ticketDeleteRequest) {
+        ticketService.returnTicket(ticketDeleteRequest);
     }
 }

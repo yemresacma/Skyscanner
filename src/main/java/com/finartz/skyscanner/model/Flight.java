@@ -1,7 +1,6 @@
 package com.finartz.skyscanner.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,9 +11,12 @@ import java.util.List;
 public class Flight extends BaseEntity {
     @Column(nullable = false)
     private int initialTicketPrice;
+
     @Column(nullable = false)
     private int totalSeat;
-    private int remainingSeat;
+
+    @Column(columnDefinition = "integer default 25")
+    private int soldTicketNumber;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(nullable = false)
@@ -37,7 +39,7 @@ public class Flight extends BaseEntity {
     public Flight(int initialTicketPrice, int totalSeat, Date date, Company company, Route route) {
         this.initialTicketPrice = initialTicketPrice;
         this.totalSeat = totalSeat;
-        this.remainingSeat = totalSeat;
+        this.soldTicketNumber = 0;
         this.date = date;
         this.company = company;
         this.route = route;
@@ -59,12 +61,12 @@ public class Flight extends BaseEntity {
         this.totalSeat = totalSeat;
     }
 
-    public int getRemainingSeat() {
-        return remainingSeat;
+    public int getSoldTicketNumber() {
+        return soldTicketNumber;
     }
 
-    public void setRemainingSeat(int remainingSeat) {
-        this.remainingSeat = remainingSeat;
+    public void setSoldTicketNumber(int soldTicketNumber) {
+        this.soldTicketNumber = soldTicketNumber;
     }
 
     public Date getDate() {
@@ -94,7 +96,7 @@ public class Flight extends BaseEntity {
     @Override
     public String toString() {
         return "Flight [id=" + super.getId() + ", route=" + route.toString()
-                + ", remainingSeat=" + Integer.toString(remainingSeat) +
+                + ", soldTicketNumber=" + Integer.toString(soldTicketNumber) +
                 ", Date:" + date.toString() + "]";
     }
 }
