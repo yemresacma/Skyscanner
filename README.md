@@ -45,7 +45,7 @@ mvn spring-boot:run
 ```
 - Import "DatabaseInitializer.postman_collection.json" to Postman and run the collection
 - This collection creates 3 airport, 3 company, 4 route, and 2 different flight.
-- Import "TicketBuyer.postman_collection.json" and run with different iterations and observe ticket prise raise
+- Import "TicketBuyer.postman_collection.json" and run with different iterations and observe ticket price's raise
 - For the rest of the tests, you can follow the rest of the documentation. You can change parameters and make your own tests.
 
 ### Airport http requests
