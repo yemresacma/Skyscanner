@@ -1,5 +1,7 @@
 package com.finartz.skyscanner.service;
 
+import com.finartz.skyscanner.exception.CompanyExistsException;
+import com.finartz.skyscanner.exception.CompanyNotFoundException;
 import com.finartz.skyscanner.model.Company;
 import com.finartz.skyscanner.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +25,18 @@ public class CompanyService {
 
     public Company getCompanyById(Long id) {
         return companyRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No company found with the given id"));
+                .orElseThrow(() -> new CompanyNotFoundException("id"));
     }
 
     public Company getCompanyByName(String name) {
         return companyRepository.findByName(name)
-                .orElseThrow(() -> new EntityNotFoundException("No company found with the given name"));
+                .orElseThrow(() -> new CompanyNotFoundException("name"));
     }
 
     public void saveOrUpdate(Company company) {
         try {
             companyRepository.save(company);
-        } catch (DataIntegrityViolationException e) {
+        } catch (CompanyExistsException e) {
             throw e;
         }
     }

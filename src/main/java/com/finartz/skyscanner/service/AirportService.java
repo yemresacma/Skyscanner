@@ -1,5 +1,7 @@
 package com.finartz.skyscanner.service;
 
+import com.finartz.skyscanner.exception.AirportExistsException;
+import com.finartz.skyscanner.exception.AirportNotFoundException;
 import com.finartz.skyscanner.model.Airport;
 import com.finartz.skyscanner.repository.AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +9,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,18 +25,18 @@ public class AirportService {
 
     public Airport getAirportById(Long id) {
             return airportRepository.findById(id)
-                    .orElseThrow(() -> new EntityNotFoundException("No airport found with the given id"));
+                    .orElseThrow(() -> new AirportNotFoundException("id"));
     }
 
     public Airport getAirportByName(String name) {
         return airportRepository.findByName(name)
-                .orElseThrow(() -> new EntityNotFoundException("No airport found with the given name"));
+                .orElseThrow(() -> new AirportNotFoundException("name"));
     }
 
     public void saveOrUpdate(Airport airport) {
         try {
             airportRepository.save(airport);
-        } catch (DataIntegrityViolationException e) {
+        } catch (AirportExistsException e) {
             throw e;
         }
     }

@@ -1,12 +1,12 @@
 package com.finartz.skyscanner.service;
 
+import com.finartz.skyscanner.exception.RouteNotFoundException;
+import com.finartz.skyscanner.exception.WrongRouteEntityException;
 import com.finartz.skyscanner.model.Route;
 import com.finartz.skyscanner.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +23,14 @@ public class RouteService {
 
     public Route getRoute(String from, String to) {
         return routeRepository.getRoute(from, to)
-                .orElseThrow(() -> new EntityNotFoundException("No route available for given points"));
+                .orElseThrow(() -> new RouteNotFoundException());
     }
 
-    public void saveOrUpdate(Route route) {
+    public void saveOrUpdate(Route route) throws WrongRouteEntityException {
         if (route.getArrivalPoint().getId() != route.getDeparturePoint().getId()) {
             routeRepository.save(route);
         } else {
-            throw new EntityExistsException("Departure and Arrival points cannot be same");
+            throw new WrongRouteEntityException();
         }
     }
 

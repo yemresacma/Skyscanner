@@ -1,12 +1,12 @@
 package com.finartz.skyscanner.service;
 
+import com.finartz.skyscanner.exception.FlightNotFoundException;
+import com.finartz.skyscanner.exception.WrongFlightEntityException;
 import com.finartz.skyscanner.model.Flight;
 import com.finartz.skyscanner.repository.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -27,12 +27,12 @@ public class FlightService {
     public List<Flight> getFlight(String from, String to) {
          Date date =  Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
          return flightRepository.getFlight(from, to, date)
-                 .orElseThrow(() -> new EntityNotFoundException("No flight found for given route"));
+                 .orElseThrow(() -> new FlightNotFoundException("route"));
     }
 
     public Flight getFlight(Long id) {
         return flightRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No flight found for given id"));
+                .orElseThrow(() -> new FlightNotFoundException("d"));
     }
 
     /**
@@ -49,11 +49,11 @@ public class FlightService {
         LocalDate currentDate = LocalDate.now().plusDays(10);
 
         if (date.isBefore(currentDate)) {
-            throw new DateTimeException("The flight must be scheduled at least 10 day before.");
+            throw new WrongFlightEntityException("The flight must be scheduled at least 10 day before");
         } else if (flight.getTotalSeat() <= 0) {
-            throw new Exception("Invalid number of seat argument");
+            throw new WrongFlightEntityException("Invalid number of seat argument");
         } else if (flight.getInitialTicketPrice() <= 0) {
-            throw new Exception("Invalid ticket price argument");
+            throw new WrongFlightEntityException("Invalid ticket price argument");
         } else
             flightRepository.save(flight);
     }

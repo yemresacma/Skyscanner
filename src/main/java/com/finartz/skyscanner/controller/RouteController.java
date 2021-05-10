@@ -1,5 +1,6 @@
 package com.finartz.skyscanner.controller;
 
+import com.finartz.skyscanner.exception.WrongRouteEntityException;
 import com.finartz.skyscanner.model.Route;
 import com.finartz.skyscanner.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class RouteController {
     }
 
     @PostMapping("/route")
-    private Long saveRoute(@RequestBody Route route) {
+    private Long saveRoute(@RequestBody Route route) throws WrongRouteEntityException {
         routeService.saveOrUpdate(route);
         return route.getId();
     }

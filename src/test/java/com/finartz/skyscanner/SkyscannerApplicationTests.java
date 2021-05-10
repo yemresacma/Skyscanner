@@ -1,5 +1,7 @@
 package com.finartz.skyscanner;
 
+import com.finartz.skyscanner.exception.WrongFlightEntityException;
+import com.finartz.skyscanner.exception.WrongRouteEntityException;
 import com.finartz.skyscanner.model.*;
 import com.finartz.skyscanner.service.*;
 import org.junit.FixMethodOrder;
@@ -165,7 +167,7 @@ public class SkyscannerApplicationTests {
 
 	// Route related tests
 	@Test
-	public void stage07RouteTest() {
+	public void stage07RouteTest() throws WrongRouteEntityException {
 		// create and save airports to be able to test Route
 		airport1 = new Airport(Constants.TEST_AIRPORT_NAME1);
 		Airport newAirport2 = new Airport(Constants.TEST_AIRPORT_NAME2);
@@ -184,7 +186,7 @@ public class SkyscannerApplicationTests {
 
 		// test with same arrival&departure points
 		route2 = new Route(airport1, airport1);
-		Assertions.assertThrows(EntityExistsException.class, () -> routeService.saveOrUpdate(route2));
+		Assertions.assertThrows(WrongRouteEntityException.class, () -> routeService.saveOrUpdate(route2));
 
 		route2.setArrivalPoint(newAirport2);
 		Assertions.assertThrows(DataIntegrityViolationException.class, () -> routeService.saveOrUpdate(route2));
@@ -203,7 +205,7 @@ public class SkyscannerApplicationTests {
 
 		// test with invalid date
 		flight = new Flight(0, 0, Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()), company1, route1);
-		Assertions.assertThrows(DateTimeException.class, () ->
+		Assertions.assertThrows(WrongFlightEntityException.class, () ->
 				flightService.save(flight));
 
 		//  with invalid seat number

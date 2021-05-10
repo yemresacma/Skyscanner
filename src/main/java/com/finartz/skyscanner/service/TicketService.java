@@ -1,5 +1,8 @@
 package com.finartz.skyscanner.service;
 
+import com.finartz.skyscanner.exception.FlightNotFoundException;
+import com.finartz.skyscanner.exception.NotEnoughBalanceException;
+import com.finartz.skyscanner.exception.TicketNotFoundException;
 import com.finartz.skyscanner.model.Flight;
 import com.finartz.skyscanner.model.Ticket;
 import com.finartz.skyscanner.repository.FlightRepository;
@@ -8,8 +11,6 @@ import com.finartz.skyscanner.utility.PaymentUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class TicketService {
 
     public Ticket getTicketById(Long id) {
         return ticketRepository.findById(id)
-                .orElseThrow(() -> new EntityExistsException("No flight found for the given id"));
+                .orElseThrow(() -> new TicketNotFoundException());
     }
 
     public void saveOrUpdate(Ticket ticket) {
@@ -59,7 +60,7 @@ public class TicketService {
 
         // throw an exception in case of flight does not exist
         Flight flightInfo = flightRepository.findById(flightInfoId)
-                .orElseThrow(() -> new EntityNotFoundException());
+                .orElseThrow(() -> new FlightNotFoundException("id"));
 
         LocalDate date = flightInfo.getDate().toInstant()
                 .atZone(ZoneId.systemDefault())
@@ -91,7 +92,7 @@ public class TicketService {
             ticketRepository.save(newTicket);
         } else {
             buyReturnLock.unlock();
-            throw new Exception("No enough balance in the account");
+            throw new NotEnoughBalanceException();
         }
 
         buyReturnLock.unlock();
@@ -113,7 +114,7 @@ public class TicketService {
         Ticket ticket = ticketRepository.findById(ticketNumber)
                 .orElseThrow(() -> {
                     buyReturnLock.unlock();
-                    return new EntityNotFoundException();
+                    return new TicketNotFoundException();
                 });
         Flight flight = ticket.getFlightInfo();
 

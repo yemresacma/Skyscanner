@@ -12,7 +12,6 @@ public class FlightController {
     @Autowired
     FlightService flightService;
 
-
     @GetMapping("/flight")
     private @ResponseBody List<Flight> getAllFlights() {
         return flightService.getAllFlights();
