@@ -5,7 +5,8 @@
 #### Airport
 | Id | airportName |
 | ------ | ------ |
-|  
+|  ||
+
 #### Company
 | Id | companyName |
 | ------ | ------ |
@@ -14,21 +15,23 @@
 #### Route
 | Id | departurePoint | arrivalPoint |
 | ------ | ------ | ------ |
-|  
+|  ||
 
 - departurePoint and arrivalPoint are instance of Airport table
 
 #### Flight
 | Id | initialTicketPrice | totalSeat | soldTicketNumber | date | company | route |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-|
+|  ||
+
 - company is instance of Company object
 - route is instance of Route object
 
 #### Ticket
 | Id | creditCardInfo | ticketPrice | flightInfo |
 | ------ | ------ | ------ | ------ |
-|
+|  ||
+
 
 - creditCardInfo is kept masked according to requirement
 - creditCardInfo is kept to be able to return payment for ticket  
