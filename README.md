@@ -142,7 +142,7 @@ Note that, Flight must be scheduled at least 10 days before
 ```
 
 ##### Delete request
-- Return ticket with json object below. Note that, flight
+- Return ticket with json object below. Note that, flight information is checked.
 ```sh
 {
     "flightInfoId": 1,
