@@ -12,20 +12,31 @@ public class FlightController {
     @Autowired
     FlightService flightService;
 
+
     @GetMapping("/flight")
     private @ResponseBody List<Flight> getAllFlights() {
         return flightService.getAllFlights();
     }
 
-    @GetMapping("/flight/from={from}&to={to}&companyName={companyName}")
-    private @ResponseBody Object getFlight(@PathVariable("from") String from, @PathVariable("to") String to,
-                                           @PathVariable("companyName") String companyName) {
-        return flightService.getFlight(from, to, companyName);
+    /**
+     * this method returns the all flights that matched with given route
+     * @param from
+     * @param to
+     * @return
+     */
+    @GetMapping("/flight/from={from}&to={to}")
+    private @ResponseBody List<Flight> getFlight(@PathVariable("from") String from, @PathVariable("to") String to) {
+        return flightService.getFlight(from, to);
+    }
+
+    @GetMapping("/flight/id={id}")
+    private @ResponseBody Flight getFlight(@PathVariable("id") Long id) {
+        return flightService.getFlight(id);
     }
 
     @PostMapping("/flight")
-    private Long saveFlight(@RequestBody Flight flight) {
-        flightService.saveOrUpdate(flight);
+    private Long saveFlight(@RequestBody Flight flight) throws Exception {
+        flightService.save(flight);
         return flight.getId();
     }
 }

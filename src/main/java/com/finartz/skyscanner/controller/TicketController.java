@@ -22,11 +22,24 @@ public class TicketController {
         return ticketService.getTicketById(id);
     }
 
+    /**
+     * This method is used to buy ticket
+     * @param ticketRequest is json object with given structure below
+     * "flightInfoId" -> flight id
+     * "creditCardNumber" -> card number
+     * @return saved ticket in case of success
+     * @throws Exception in case of invalid card or flight informations
+     */
     @PostMapping("/ticket")
     private Ticket saveTicket(@RequestBody Object ticketRequest) throws Exception {
         return ticketService.buyTicket(ticketRequest);
     }
 
+    /**
+     * This method is used to return a ticket
+     * @param ticketDeleteRequest is is json object with given structe below
+     * "ticketNumber" -> ticket number(id)
+     */
     @DeleteMapping("/ticket")
     private void deleteTicket(@RequestBody Object ticketDeleteRequest) {
         ticketService.returnTicket(ticketDeleteRequest);

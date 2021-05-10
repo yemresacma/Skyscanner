@@ -45,6 +45,11 @@ public class Flight extends BaseEntity {
         this.route = route;
     }
 
+    public Flight(Long id, int initialTicketPrice, int totalSeat, Date date, Company company, Route route) {
+        this(initialTicketPrice, totalSeat, date, company, route);
+        this.setId(id);
+    }
+
     public int getInitialTicketPrice() {
         return initialTicketPrice;
     }

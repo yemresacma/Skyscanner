@@ -16,6 +16,11 @@ public class Ticket extends BaseEntity {
     public Ticket() {
     }
 
+    public Ticket(String creditCardInfo, Flight flightInfo) {
+        this.creditCardInfo = creditCardInfo;
+        this.flightInfo = flightInfo;
+    }
+
     public Ticket(Flight flightInfo) {
         this.flightInfo = flightInfo;
     }

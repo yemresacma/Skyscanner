@@ -23,24 +23,36 @@ public class FlightService {
         return flights;
     }
 
-    public Object getFlight(String from, String to, String companyName) {
-        try {
-            return flightRepository.getFlight(from, to, companyName);
-        } catch (EntityNotFoundException e) {
-            throw e;
-        }
+    public List<Flight> getFlight(String from, String to) {
+         return flightRepository.getFlight(from, to)
+                 .orElseThrow(() -> new EntityNotFoundException("No flight found for given route"));
     }
 
-    public void saveOrUpdate(Flight flight) {
-        LocalDate date = flight.getDate().toInstant()
+    public Flight getFlight(Long id) {
+        return flightRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No flight found for given id"));
+    }
+
+    /**
+     * This method is used to save flight
+     * @param flight
+     * @throws Exception in case of wrong date data or
+     * in case of wrong seat number or
+     * in case of wrong ticket price
+     */
+    public void save(Flight flight) throws Exception {
+        LocalDate date = (flight.getDate()).toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
-        date.plusDays(10);
+        LocalDate currentDate = LocalDate.now().plusDays(10);
 
-        if (date.isAfter(LocalDate.now())) {
-            flightRepository.save(flight);
+        if (date.isBefore(currentDate)) {
+            throw new DateTimeException("The flight must be scheduled at least 10 day before.");
+        } else if (flight.getTotalSeat() <= 0) {
+            throw new Exception("Invalid number of seat argument");
+        } else if (flight.getInitialTicketPrice() <= 0) {
+            throw new Exception("Invalid ticket price argument");
         } else
-            throw new DateTimeException("The flight must be scheduled at least 10 day before. ");
-
+            flightRepository.save(flight);
     }
 }

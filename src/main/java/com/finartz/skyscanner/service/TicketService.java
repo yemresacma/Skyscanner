@@ -8,6 +8,7 @@ import com.finartz.skyscanner.utility.PaymentUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -32,13 +33,22 @@ public class TicketService {
     }
 
     public Ticket getTicketById(Long id) {
-        return ticketRepository.findById(id).get();
+        return ticketRepository.findById(id)
+                .orElseThrow(() -> new EntityExistsException("No flight found for the given id"));
     }
 
     public void saveOrUpdate(Ticket ticket) {
         ticketRepository.save(ticket);
     }
 
+    /**
+     *
+     * @param ticketRequestObject is json object with given structure below
+     * "flightInfoId" -> flight id
+     * "creditCardNumber" -> card number
+     * @return saved ticket in case of success
+     * @throws Exception in case of invalid flight or credit card info
+     */
     public Ticket buyTicket(Object ticketRequestObject) throws Exception {
         // parse json object and extract credit card number and flight Id
         LinkedHashMap ticketRequest = ((LinkedHashMap) ticketRequestObject);
@@ -56,7 +66,7 @@ public class TicketService {
                 .toLocalDate();
         if (date.isBefore(LocalDate.now())) {
             buyReturnLock.unlock();
-            throw new Exception("No seats left for this flight");
+            throw new Exception("Flight time is in the past");
         }
 
         // check there is enought seat
@@ -88,6 +98,11 @@ public class TicketService {
         return newTicket;
     }
 
+    /**
+     * This method is used to return ticket
+     * @param ticketDeleteRequest is is json object with given structe below
+     * "ticketNumber" -> ticket number(id)
+     */
     public void returnTicket(Object ticketDeleteRequest) {
         // parse json object and extract ticket number
         LinkedHashMap deletionRequest = ((LinkedHashMap) ticketDeleteRequest);

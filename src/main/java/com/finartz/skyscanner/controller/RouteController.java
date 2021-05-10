@@ -17,14 +17,21 @@ public class RouteController {
         return routeService.getAllRoutes();
     }
 
+    /**
+     * this method returns the all flights that matched with
+     * given destination and departure points
+     * @param from
+     * @param to
+     * @return
+     */
     @GetMapping("/route/from={from}&to={to}")
-    private @ResponseBody Object getRoute(@PathVariable("from") String from, @PathVariable("to") String to) {
+    private @ResponseBody Route getRoute(@PathVariable("from") String from, @PathVariable("to") String to) {
         return routeService.getRoute(from, to);
     }
 
     @PostMapping("/route")
     private Long saveRoute(@RequestBody Route route) {
-        routeService.saveOrupdate(route);
+        routeService.saveOrUpdate(route);
         return route.getId();
     }
 }

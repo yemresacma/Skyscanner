@@ -2,8 +2,6 @@ package com.finartz.skyscanner.model;
 
 import javax.persistence.*;
 
-import com.sun.istack.NotNull;
-
 import java.util.List;
 
 @Entity
@@ -28,6 +26,11 @@ public class Route extends BaseEntity {
     public Route(Airport from, Airport to) {
         this.departurePoint = from;
         this.arrivalPoint = to;
+    }
+
+    public Route(long id, Airport from, Airport to) {
+        this(from, to);
+        this.setId(id);
     }
 
     public Airport getArrivalPoint() {

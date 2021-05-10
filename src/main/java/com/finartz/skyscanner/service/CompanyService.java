@@ -3,9 +3,9 @@ package com.finartz.skyscanner.service;
 import com.finartz.skyscanner.model.Company;
 import com.finartz.skyscanner.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,21 +23,18 @@ public class CompanyService {
 
     public Company getCompanyById(Long id) {
         return companyRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException());
+                .orElseThrow(() -> new EntityNotFoundException("No company found with the given id"));
     }
 
     public Company getCompanyByName(String name) {
-        try {
-            return companyRepository.findByName(name);
-        } catch (EntityNotFoundException e) {
-            throw e;
-        }
+        return companyRepository.findByName(name)
+                .orElseThrow(() -> new EntityNotFoundException("No company found with the given name"));
     }
 
     public void saveOrUpdate(Company company) {
         try {
             companyRepository.save(company);
-        } catch (EntityExistsException e) {
+        } catch (DataIntegrityViolationException e) {
             throw e;
         }
     }

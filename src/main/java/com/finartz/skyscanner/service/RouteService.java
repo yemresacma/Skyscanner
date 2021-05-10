@@ -21,19 +21,16 @@ public class RouteService {
         return routes;
     }
 
-    public Object getRoute(String from, String to) {
-        try {
-            return routeRepository.getRoute(from, to);
-        } catch (EntityNotFoundException e) {
-            throw e;
-        }
+    public Route getRoute(String from, String to) {
+        return routeRepository.getRoute(from, to)
+                .orElseThrow(() -> new EntityNotFoundException("No route available for given points"));
     }
 
-    public void saveOrupdate(Route route) {
-        try {
+    public void saveOrUpdate(Route route) {
+        if (route.getArrivalPoint().getId() != route.getDeparturePoint().getId()) {
             routeRepository.save(route);
-        } catch (EntityExistsException e) {
-            throw e;
+        } else {
+            throw new EntityExistsException("Departure and Arrival points cannot be same");
         }
     }
 

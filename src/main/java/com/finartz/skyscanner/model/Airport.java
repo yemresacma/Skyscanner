@@ -1,13 +1,15 @@
 package com.finartz.skyscanner.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "Airport")
 public class Airport extends NamedEntity {
     public Airport() {
+    }
+
+    public Airport(String name) {
+        this.setName(name);
     }
 
     @Override
