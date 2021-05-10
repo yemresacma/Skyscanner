@@ -38,6 +38,11 @@
 - flightInfo is instance of Flight object
 
 ## Instructions to initialiaze database
+- Run backend service using following commands
+```sh
+mvn clean install
+mvn spring-boot:run
+```
 - Import "DatabaseInitializer.postman_collection.json" to Postman and run the collection
 - This collection creates 3 airport, 3 company, 4 route, and 2 different flight.
 - Import "TicketBuyer.postman_collection.json" and run with different iterations and observe ticket prise raise
