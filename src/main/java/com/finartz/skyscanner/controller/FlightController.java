@@ -29,11 +29,6 @@ public class FlightController {
         return flightService.getFlight(from, to);
     }
 
-    @GetMapping("/flight/id={id}")
-    private @ResponseBody Flight getFlight(@PathVariable("id") Long id) {
-        return flightService.getFlight(id);
-    }
-
     @PostMapping("/flight")
     private Long saveFlight(@RequestBody Flight flight) throws Exception {
         flightService.save(flight);

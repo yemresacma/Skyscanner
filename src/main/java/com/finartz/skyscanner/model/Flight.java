@@ -15,7 +15,7 @@ public class Flight extends BaseEntity {
     @Column(nullable = false)
     private int totalSeat;
 
-    @Column(columnDefinition = "integer default 25")
+    @Column(columnDefinition = "int default 0")
     private int soldTicketNumber;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")

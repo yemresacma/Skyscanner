@@ -30,7 +30,7 @@ public class PaymentUtil {
      * @throws Exception
      */
         public static String validateAndMaskCardNumber(String creditCardNumber) throws Exception {
-            creditCardNumber= creditCardNumber.replaceAll("[^0-9]", "");
+            creditCardNumber = creditCardNumber.replaceAll("[^0-9]", "");
             if (creditCardNumber.length() != 16) {
                 throw new Exception("Invalid credit card number format");
             }
