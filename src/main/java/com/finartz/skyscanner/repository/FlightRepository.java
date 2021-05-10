@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,8 @@ public interface FlightRepository extends CrudRepository<Flight, Long> {
     @Query("SELECT new com.finartz.skyscanner.model.Flight(f.id, f.initialTicketPrice, f.totalSeat, f.date, f.company, f.route)" +
             "FROM Flight f " +
             "WHERE (f.route.departurePoint.name = :from AND " +
-            "f.route.arrivalPoint.name = :to ) ")
-    Optional<List<Flight>> getFlight(@Param("from") String from, @Param("to") String to);
+            "f.route.arrivalPoint.name = :to AND " +
+            "f.date > :date) " +
+            "ORDER BY f.date ")
+    Optional<List<Flight>> getFlight(@Param("from") String from, @Param("to") String to, @Param("date") Date date);
 }

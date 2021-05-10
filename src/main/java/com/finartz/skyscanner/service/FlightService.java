@@ -10,6 +10,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,7 +25,8 @@ public class FlightService {
     }
 
     public List<Flight> getFlight(String from, String to) {
-         return flightRepository.getFlight(from, to)
+         Date date =  Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+         return flightRepository.getFlight(from, to, date)
                  .orElseThrow(() -> new EntityNotFoundException("No flight found for given route"));
     }
 
